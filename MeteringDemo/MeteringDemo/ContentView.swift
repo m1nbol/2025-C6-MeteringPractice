@@ -9,13 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack(spacing: 20) {
+                NavigationLink("Light Meter Sensor View") {
+                    LightMeterOnlySensorView()
+                }
+                .buttonStyle(.borderedProminent)
+                NavigationLink("Sun Tracker View") {
+                    SunTrackerView()
+                }
+                .buttonStyle(.borderedProminent)
+            }
         }
-        .padding()
     }
 }
 
