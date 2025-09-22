@@ -12,7 +12,8 @@ class CameraSensorReaderView: UIView {
     private let session = AVCaptureSession()
     private var device: AVCaptureDevice?
 
-    var onExposureUpdate: ((Float, Double, Float) -> Void)?
+//    var onExposureUpdate: ((Float, Double, Float) -> Void)?
+    var onExposureUpdate: ((ExposureInfo) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,11 +69,42 @@ class CameraSensorReaderView: UIView {
         }
     }
 
+//    private func readExposureValues() {
+//        guard let device = device else { return }
+//        let iso = device.iso
+//        let exposure = device.exposureDuration.seconds
+//        let offset = device.exposureTargetOffset
+//        onExposureUpdate?(iso, exposure, offset)
+//    }
     private func readExposureValues() {
         guard let device = device else { return }
+
         let iso = device.iso
         let exposure = device.exposureDuration.seconds
+        let bias = device.exposureTargetBias
         let offset = device.exposureTargetOffset
-        onExposureUpdate?(iso, exposure, offset)
+        let mode = device.exposureMode
+        let aperture = device.lensAperture
+
+        // EV 계산
+        let ev: Double
+        if aperture > 0 && exposure > 0 {
+            ev = log2((Double(aperture * aperture) / exposure) * (100.0 / Double(iso)))
+        } else {
+            ev = 0
+        }
+
+        let info = ExposureInfo(
+            iso: iso,
+            exposureDuration: exposure,
+            aperture: aperture,
+            ev: ev,
+            bias: bias,
+            offset: offset,
+            mode: mode
+        )
+
+        onExposureUpdate?(info)
     }
+
 }
