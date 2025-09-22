@@ -21,6 +21,7 @@ final class SunTrackerViewModel: NSObject, ObservableObject {
     @Published var relativeBearing: Double = 0   // 태양방위 - 기기헤딩
     @Published var relativeElevation: Double = 0 // 태양고도 - 기기피치
     @Published var photo: PhotoAdvice = .empty
+    @Published var cloudCover: Double? = nil  // ⬅️ 추가 (0.0~1.0)
     
     // 내부
     private let locMgr = CLLocationManager()
@@ -148,6 +149,7 @@ final class SunTrackerViewModel: NSObject, ObservableObject {
             let up = isSunUpBySunEvents ?? (e > -0.833)
             setSun(up: up, elev: e, az: a)
         }
+        self.cloudCover = cloudCover
         
         // 3) 촬영용 노출 가이드 계산
         self.photo = PhotoAdvice.build(elevationDeg: sunElevation,

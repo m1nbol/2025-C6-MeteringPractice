@@ -47,6 +47,12 @@ struct SunTrackerView: View {
                         .font(.footnote).foregroundStyle(.secondary)
                 }
             }
+            
+            LightMeterOnlySensorView(
+                elevationDeg: vm.sunElevation,
+                cloudCover: vm.cloudCover,
+                isSunUp: vm.sunUp
+            )
                                     
             // 촬영용 일조량/노출 가이드
             ScrollView {

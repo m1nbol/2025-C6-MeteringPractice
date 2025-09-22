@@ -12,7 +12,9 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 NavigationLink("Light Meter Sensor View") {
-                    LightMeterOnlySensorView()
+                    LightMeterOnlySensorView(elevationDeg: 45,
+                                             cloudCover: 0.2,
+                                             isSunUp: true)
                 }
                 .buttonStyle(.borderedProminent)
                 NavigationLink("Sun Tracker View") {
