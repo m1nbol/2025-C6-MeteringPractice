@@ -12,7 +12,6 @@ import WeatherKit
 
 struct SunTrackerView: View {
     @StateObject private var vm = SunTrackerViewModel()
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack(spacing: 16) {
@@ -71,15 +70,5 @@ struct SunTrackerView: View {
         .padding(20)
         .onAppear { vm.start() }
         .onDisappear { vm.stop() }
-        .toolbar {
-            // 왼쪽: 뒤로(스택에서 pop)
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Label("Status", systemImage: "sun.max.fill")
-                }
-            }
-        }
     }
 }
